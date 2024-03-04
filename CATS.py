@@ -76,10 +76,20 @@ class recogEasyOCR:
 class recogKeras:
     def __init__(self, mDetect='craft', mRecog='vgg', download=True): 
         import cv2
+        global plt
+        import matplotlib.pyplot as plt
         import keras_ocr
-        self.pipeline = keras_ocr.pipeline.Pipeline()
+        self.pipeline = keras_ocr.pipeline.Pipeline(detector=mDetect, recognizer=mRecog)
         
     def read(self):
+        self.img = plt.imread(screenShotName)
+        self.prediction_groups = self.pipeline.recognize([self.img])
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.imshow(self.img)
+        self.pipeline.draw_annotation(ax, self.prediction_groups[0])
+        plt.show()
+        recognized_text = [text for _, text in self.prediction_groups[0]]
+        print(recognized_text)
         '''
         self.img = keras_ocr.tools.read(screenShotName)
         #image = cv2.resize(image, (800, 800))
@@ -112,4 +122,4 @@ def main():
 if __name__=='__main__':
     main()
 
-#aaaaaaaaaaaaaaaaaaaaaaaaaaaa/aaaaaaaaaa
+#aaaaaaaaaaaaaaaaaaaaaaaaaaaa/aaaaaaaaaaaaaa
