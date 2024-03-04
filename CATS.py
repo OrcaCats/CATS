@@ -5,12 +5,16 @@ dependencies = ['easyocr',     #primary text recognizer
                 'keyboard',      #input listener
                 'mouse'
                 ]
-
-
+screenShotName = 'scrshot.png'
+devmode = 'Y' #sets the developer mode, y activates developer controls, NO NOT CHANGE
 
 #add runtime tracker
 class mouseLogger:
     def __init__(self):
+        global get_position
+        from mouse import get_position
+        global keyboard
+        import keyboard as keyboard
         self.running = False
         self.runtimes = 0
         self.cords = []
@@ -44,15 +48,14 @@ class screenshot:
         import pynput
         self.cords = [0, 0, 0, 0]
     def logCords(self):
-        print('a')
+        print('Press"a" to log screenshot coordinates')
         self.logger = mouseLogger()
         self.logger.start()
         self.cords[0], self.cords[1], self.cords[2], self.cords[3]= self.logger.cords[0][0], self.logger.cords[0][1], self.logger.cords[1][0] - self.logger.cords[0][0], self.logger.cords[1][1] - self.logger.cords[0][1]
-        d.debug(self.cords[1], 'N')
-        print(f'Xpos: {self.cords[0]}| Ypos: {self.cords[1]}| Width: {self.cords[2]}| Height: {self.cords[3]}|')
+        print(f'Read Parameters-- Xpos: {self.cords[0]}| Ypos: {self.cords[1]}| Width: {self.cords[2]}| Height: {self.cords[3]}|')
     def shoot(self):
         self.screenshot = pyautogui.screenshot(region=(self.cords[0], self.cords[1], self.cords[2], self.cords[3]))
-        self.screenshot.save('scrshot.png')
+        self.screenshot.save(screenShotName)
 
 
 #primary reader
@@ -62,7 +65,12 @@ class recogEasyOCR:
         import easyocr
         self.reader = easyocr.Reader(['en'])
     def read(self):
-        self.result = self.reader.readtext('Screenshot 2024-02-29 211938.png', detail=0)
+        self.result = self.reader.readtext(screenShotName, detail=0)
+        self.fullText = '\n'.join(map(str, self.result))
+        print(self.result)
+        print(self.fullText)
+        #for i in self.result: self.fullText + i
+        #print(self.fullText)
 #secondary reader, used if easyOCR isnt available
 class recogKeras:
     def __init__(self): 
@@ -70,18 +78,20 @@ class recogKeras:
         pipeline = keras_ocr.pipeline.Pipeline()
 
 
-
-
-if __name__=='__main__':
+def main():
     from ImportTree import importDependencies
-    import keyboard as keyboard
-    from mouse import get_position
     import Debug
     #check dependancyes and install
     #importDependencies(dependencies)
     d = Debug.debug()
     scr = screenshot()
     scr.logCords()
-    scr.shoot()
+    scr.shoot()    
+    reader = recogEasyOCR()
+    reader.read()
 
-#aaaaaaaaaaaaaaaa
+
+if __name__=='__main__':
+    main()
+
+#aaaaaaaaaaaaaaaaaaaaaaaaaa
