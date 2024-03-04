@@ -1,9 +1,10 @@
 #init var definition
-dependencies = ['easyocr',     #primary text recognizer
-                'keras-ocr',       #secondary text recognizer
+dependencies = ['easyocr',       #primary text recognizer
+                'keras-ocr',     #secondary text recognizer
                 'pyautogui',     #screenshoter  
                 'keyboard',      #input listener
-                'mouse'
+                'mouse',         #mouse locator
+                'cv2'
                 ]
 screenShotName = 'scrshot.png'
 devmode = 'Y' #sets the developer mode, y activates developer controls, NO NOT CHANGE
@@ -73,10 +74,24 @@ class recogEasyOCR:
         #print(self.fullText)
 #secondary reader, used if easyOCR isnt available
 class recogKeras:
-    def __init__(self): 
-        import matplotlib.pyplot as plt
-        pipeline = keras_ocr.pipeline.Pipeline()
-
+    def __init__(self, mDetect='craft', mRecog='vgg', download=True): 
+        import cv2
+        import keras_ocr
+        self.pipeline = keras_ocr.pipeline.Pipeline()
+        
+    def read(self):
+        '''
+        self.img = keras_ocr.tools.read(screenShotName)
+        #image = cv2.resize(image, (800, 800))
+        self.prediction_groups = self.pipeline.recognize([image])
+        self.extracted = []
+        for predictions in self.prediction_groups:
+            for textResult in predictions:
+                text = textResult[0]
+                extracted.append(text)
+        resultSTR = '\n'.join(extracted)
+        return resultSTR
+        '''
 
 def main():
     from ImportTree import importDependencies
@@ -87,11 +102,14 @@ def main():
     scr = screenshot()
     scr.logCords()
     scr.shoot()    
-    reader = recogEasyOCR()
-    reader.read()
+    #reader = recogEasyOCR()
+    #reader.read()
+    reader = recogKeras()
+    print(reader.read()) #effnetb3 for efficientcy, try vgg
+    
 
 
 if __name__=='__main__':
     main()
 
-#aaaaaaaaaaaaaaaaaaaaaaaaaa
+#aaaaaaaaaaaaaaaaaaaaaaaaaaaa/aaaaaaaaaa
