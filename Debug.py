@@ -53,5 +53,7 @@ class debug:
         self.return_LineCount = self.dbg_Counter % self.debugStep
         if pointer == 'Y':
             print(f'value: |{text}| at counter: |{str(self.dbg_Counter)}|') if self.return_LineCount == 0 else print(text)
+        elif pointer == 'N':
+            pass
         else:
             print('Pass ' + str(self.dbg_Counter))

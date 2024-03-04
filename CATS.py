@@ -33,19 +33,6 @@ class mouseLogger:
             self.cords.append(mouse_position) 
             self.runtimes += 1
 
-#primary reader
-class recogEasyOCR:
-    def __init__(self):
-        global easyocr
-        import easyocr
-        self.reader = easyocr.Reader(['en'])
-    def read(self):
-        self.result = self.reader.readtext('Screenshot 2024-02-29 211938.png', detail=0)
-#secondary reader, used if easyOCR isnt available
-class recogKeras:
-    def __init__(self): 
-        import matplotlib.pyplot as plt
-        pipeline = keras_ocr.pipeline.Pipeline()
 
 
 class screenshot:
@@ -61,25 +48,40 @@ class screenshot:
         self.logger = mouseLogger()
         self.logger.start()
         self.cords[0], self.cords[1], self.cords[2], self.cords[3]= self.logger.cords[0][0], self.logger.cords[0][1], self.logger.cords[1][0] - self.logger.cords[0][0], self.logger.cords[1][1] - self.logger.cords[0][1]
-
-    def shoot(self, cords):
+        d.debug(self.cords[1], 'N')
+        print(f'Xpos: {self.cords[0]}| Ypos: {self.cords[1]}| Width: {self.cords[2]}| Height: {self.cords[3]}|')
+    def shoot(self):
         self.screenshot = pyautogui.screenshot(region=(self.cords[0], self.cords[1], self.cords[2], self.cords[3]))
+        self.screenshot.save('scrshot.png')
+
+
+#primary reader
+class recogEasyOCR:
+    def __init__(self):
+        global easyocr
+        import easyocr
+        self.reader = easyocr.Reader(['en'])
+    def read(self):
+        self.result = self.reader.readtext('Screenshot 2024-02-29 211938.png', detail=0)
+#secondary reader, used if easyOCR isnt available
+class recogKeras:
+    def __init__(self): 
+        import matplotlib.pyplot as plt
+        pipeline = keras_ocr.pipeline.Pipeline()
+
+
 
 
 if __name__=='__main__':
     from ImportTree import importDependencies
+    import keyboard as keyboard
+    from mouse import get_position
+    import Debug
     #check dependancyes and install
     #importDependencies(dependencies)
+    d = Debug.debug()
+    scr = screenshot()
+    scr.logCords()
+    scr.shoot()
 
-#aa
-
-import keyboard as keyboard
-from mouse import get_position
-import Debug
-#logger = mouseLogger()
-#logger.start()
-#print(logger.cords)
-d = Debug.debug()
-d.debug('3', 'Y')
-scr = screenshot()
-scr.logCords()
+#aaaaaaaaaaaaaaaa
