@@ -61,6 +61,7 @@ class screenshot:
         self.logger = mouseLogger()
         self.logger.start()
         self.cords[0], self.cords[1], self.cords[2], self.cords[3]= self.logger.cords[0][0], self.logger.cords[0][1], self.logger.cords[1][0] - self.logger.cords[0][0], self.logger.cords[1][1] - self.logger.cords[0][1]
+
     def shoot(self, cords):
         self.screenshot = pyautogui.screenshot(region=(self.cords[0], self.cords[1], self.cords[2], self.cords[3]))
 
@@ -70,12 +71,15 @@ if __name__=='__main__':
     #check dependancyes and install
     #importDependencies(dependencies)
 
-#
+#aa
 
 import keyboard as keyboard
 from mouse import get_position
+import Debug
 #logger = mouseLogger()
 #logger.start()
 #print(logger.cords)
+d = Debug.debug()
+d.debug('3', 'Y')
 scr = screenshot()
 scr.logCords()
