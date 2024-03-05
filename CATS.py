@@ -103,17 +103,24 @@ class recogKeras:
         return resultSTR
         '''
 
-def main():
-    from ImportTree import importDependencies
-    import Debug
-    #check dependancyes and install
-    #importDependencies(dependencies)
+def extractFromSceen():
     d = Debug.debug()
     scr = screenshot()
     scr.logCords()
     scr.shoot()    
     reader = recogEasyOCR()
     reader.read()
+
+def main():
+    from ImportTree import importDependencies
+    global Debug
+    import Debug
+    #check dependancyes and install
+    #importDependencies(dependencies)
+    exit = False
+    while not exit:
+        extractFromSceen()
+        exit = True if input('Continue? (Yes/No): ').lower() == 'no' else False
     #reader = recogKeras()
     #print(reader.read()) #effnetb3 for efficientcy, try vgg
     
