@@ -112,14 +112,14 @@ def main():
     scr = screenshot()
     scr.logCords()
     scr.shoot()    
-    #reader = recogEasyOCR()
-    #reader.read()
-    reader = recogKeras()
-    print(reader.read()) #effnetb3 for efficientcy, try vgg
+    reader = recogEasyOCR()
+    reader.read()
+    #reader = recogKeras()
+    #print(reader.read()) #effnetb3 for efficientcy, try vgg
     
 
 
 if __name__=='__main__':
     main()
 
-#aaaaaaaaaaaaaaaaaaaaaaaaaaaa/aaaaaaaaaaaaaa
+#aaaaaaaaaaaaaaaaaaaaaaaaaaaa/aaaaaaaaaaaaaaaaaaaa
